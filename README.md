@@ -5,13 +5,18 @@ There are the 8 planets and pluto.
 The numbers next to the planet are the distance to the Sun in AU (astronomical unit)
 
 3 bugs: - when we zoom the background moves at a certain point.
+
         - The button at the upper left is not finished.
+        
         - The drawing of the orbit is not good for the planet far to the sun.
 
 
-For the next update: - HUD where we could: -change the time speed
-                                           \n-create our own planets with the mass, size, position (cursor position).
+For the next update: - HUD where we could: -change the time speed.
+
+                                           -create our own planets with the mass, size, position (cursor position).
+                                           
                                            -select a planet and get infos of the planet.
+                                           
                                            -select a planet and zoom in.
       
 
