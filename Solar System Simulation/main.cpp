@@ -86,29 +86,33 @@ struct Pluto : public Planets
 };
 
 int main()
-{
-    // window
-    const short fps = 60;
+{ 
+    // window ////////////////////////////////////////////////////////////////////
+    const __int8 fps = 60;
     sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), "Solar System");
     window.setFramerateLimit(fps); // 60 fps
 
+    // view ////////////////////////////////////////////////////////////////////
     sf::View view;
     view.setSize(sf::Vector2f(winWidth, winHeight));
+    short index_planet_view = 0;
 
-    // background
+    // background ////////////////////////////////////////////////////////////////////
     sf::Texture texture_background;
     texture_background.loadFromFile("Asserts/Images/space.jpg");
     sf::RectangleShape background;
     background.setTexture(&texture_background);
-    background.setPosition(sf::Vector2f(0, 0));
+    background.setOrigin(sf::Vector2f(winWidth / 2.f, winHeight / 2.f));
+    background.setPosition(sf::Vector2f(winWidth / 2.f, winHeight / 2.f));
     background.setSize(sf::Vector2f(winWidth, winHeight));
 
 
-    // time elapsed
-    long long time_elapsed = 0;
+    // time elapsed ////////////////////////////////////////////////////////////////////
+    unsigned long long time_elapsed = 0;
     Text time_elapsed_text{ sf::Vector2f(winWidth - 150, 10), 15 };
 
-    // differents planets
+
+    // differents planets ////////////////////////////////////////////////////////////////////
     Sun* sun = new Sun;
     Earth* earth = new Earth;
     Mars* mars = new Mars;
@@ -121,13 +125,8 @@ int main()
     Pluto* pluto = new Pluto;
 
 
-    // vector of planets
+    // vector of planets ////////////////////////////////////////////////////////////////////
     std::vector<Planets>* planets = new std::vector<Planets>;
-    if (planets == NULL)
-    {
-        std::cout << "failed" << '\n';
-        return EXIT_FAILURE;
-    }
     planets->push_back(*sun);
     planets->push_back(*mercury);
     planets->push_back(*venus);
@@ -139,17 +138,21 @@ int main()
     planets->push_back(*neptune);
     planets->push_back(*pluto);
 
-
+    // Buttons ////////////////////////////////////////////////////////////////////
     SlideButton slidebutton(sf::Color(125, 125, 125), sf::Vector2f(100, 100), sf::Vector2f(30, 30), sf::Vector2f(30, 150));
-    // main game loop
+
+    bool clicked = false;
+    // main game loop ////////////////////////////////////////////////////////////////////
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-
+            // close event ////////////////////////////////////////////////////////////////////
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            // zoom/dezoom event ////////////////////////////////////////////////////////////////////
             if (event.type == sf::Event::MouseWheelScrolled)
             {
                 float delta = event.mouseWheelScroll.delta;
@@ -169,7 +172,34 @@ int main()
                     }
                 }
             }
+            
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                sf::Vector2f upperLeftSlideButton = slidebutton.getPosition();
+                sf::Vector2f lowerRightSlideButton = slidebutton.getPosition() + slidebutton.getSize();
+                if (mousePos.x > upperLeftSlideButton.x && mousePos.x < lowerRightSlideButton.x && mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && !clicked)
+                {
+                    slidebutton.click();
+                    clicked = true;
+                }
+                else if (mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && clicked)
+                {
+                    slidebutton.slide(mousePos.y);
+                }
 
+            }
+            
+            if (event.type == sf::Event::MouseButtonReleased)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    slidebutton.unclick();
+                    clicked = false;
+                }
+            }
+
+            // focus the view on the planet with mouse button ////////////////////////////////////////////////////////////////////
             if (event.type == sf::Event::MouseButtonReleased)
             {
                 sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
@@ -177,31 +207,35 @@ int main()
                 {
                     if (mousePos.x > planets->at(i).getPosition().x - 30 && mousePos.x < planets->at(i).getPosition().x + 30 && mousePos.y > planets->at(i).getPosition().y - 30 && mousePos.y < planets->at(i).getPosition().y + 30)
                     {
-
+                        index_planet_view = i;
                     }
                 }
             }
         }
-        time_elapsed += timestep;
+        
+        time_elapsed += planets->at(0).m_timestep;
         time_elapsed_text.setText(sf::String(std::to_string(time_elapsed / 86400) + " jours"));
 
 
-
-
         window.clear();
+        background.setPosition(planets->at(index_planet_view).getPosition());
         window.draw(background);
         time_elapsed_text.drawText(window);
 
-
-        for (auto& planet : *planets)
+        
+        for (Planets& planet : *planets)
         {
             planet.update_position(*planets); // calculate their movements
             planet.drawPlanet(window); // draw them
+            
         }
 
-        slidebutton.drawSlideButton(window);
-        view.setCenter(planets->at(0).getPosition());
+
+        view.setCenter(planets->at(index_planet_view).getPosition());
         window.setView(view);
+
+        slidebutton.drawSlideButton(window);
+        
 
         window.display();
 

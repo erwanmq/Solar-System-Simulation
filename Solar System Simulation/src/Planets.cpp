@@ -1,5 +1,5 @@
-#include "include/Planets.h"
-#include "include/Text.h"
+#include "Planets.h"
+#include "Text.h"
 #include <iostream>
 
 
@@ -46,19 +46,16 @@ void Planets::drawLight(sf::RenderWindow& win)
     m_bright.setOrigin(sf::Vector2f((float)size_bright, (float)size_bright));
     m_bright.setFillColor(sf::Color(m_color.r, m_color.g, m_color.b, static_cast<sf::Uint8>(alphacolor_bright)));
 
-    m_bright.setPosition(m_planet.getPosition().x, m_planet.getPosition().y); // put the position on the position of the current planet
+    m_bright.setPosition(m_xWorldCoord, m_yWorldCoord); // put the position on the position of the current planet
 
     win.draw(m_bright);
 }
 
-
-
-
 void Planets::drawPlanet(sf::RenderWindow& win)
 {
     // real position of the planet in the space times scale to convert AU to pixels. Origin to the center of window
-    m_xWorldCoord = static_cast<float>(m_pos_x * m_scale + winWidth / 2);
-    m_yWorldCoord = static_cast<float>(m_pos_y * m_scale + winHeight / 2);
+    m_xWorldCoord = static_cast<float>(m_pos_x * m_scale + winWidth / 2.f);
+    m_yWorldCoord = static_cast<float>(m_pos_y * m_scale + winHeight / 2.f);
 
     float size_planet = static_cast<float>(m_size * m_scale);
     m_planet.setRadius(size_planet);
@@ -76,7 +73,7 @@ void Planets::drawPlanet(sf::RenderWindow& win)
 
     m_planet.setPosition(sf::Vector2f(m_xWorldCoord, m_yWorldCoord));
 
-
+    
     win.draw(m_planet);
     for (int i = 0; i < m_orbit.size() - 1; i++)
     {
@@ -137,11 +134,11 @@ void Planets::update_position(std::vector<Planets>& planets)
 
 
     }
-    m_x_vel += (total_fx / m_mass) * timestep; // F = ma => a = F/m. We multiply by timestep to have the velocity until the timestep
-    m_y_vel += (total_fy / m_mass) * timestep;
+    m_x_vel += (total_fx / m_mass) * m_timestep; // F = ma => a = F/m. We multiply by timestep to have the velocity until the timestep
+    m_y_vel += (total_fy / m_mass) * m_timestep;
 
-    m_pos_x += m_x_vel * timestep; // and we add it and multiply it by timestep
-    m_pos_y += m_y_vel * timestep;
+    m_pos_x += m_x_vel * m_timestep; // and we add it and multiply it by timestep
+    m_pos_y += m_y_vel * m_timestep;
 
     m_orbit.push_back(sf::Vector2f(static_cast<float>(m_pos_x), static_cast<float>(m_pos_y))); // we add the coordinate of the position
     if (m_orbit.size() > 100)
@@ -155,4 +152,10 @@ void Planets::update_position(std::vector<Planets>& planets)
 const sf::Vector2f Planets::getPosition() const
 {
     return sf::Vector2f(m_xWorldCoord, m_yWorldCoord);
+}
+
+void Planets::setPosition(int x, int y)
+{
+    m_pos_x = x;
+    m_pos_y = y;
 }

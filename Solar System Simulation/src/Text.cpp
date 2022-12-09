@@ -1,4 +1,4 @@
-#include "include/Text.h"
+#include "Text.h"
 
 Text::Text()
 	: m_position{ sf::Vector2f(0, 0) }, m_size{ 0 }

@@ -39,8 +39,11 @@ private:
     std::vector<sf::Vector2f> m_orbit{}; // vector that stores the trajectory to represent the orbit
     sf::Text m_text; // text for display the distance to sun
 
+
+
 public:
     double m_scale = 250 / AU; // 250 pixels for one AU
+    int m_timestep = 3600 * 24; // one day per frame
 
 public:
 
@@ -61,5 +64,6 @@ public:
 
 
     const sf::Vector2f getPosition() const;
+    void setPosition(int x, int y);
 
 };
