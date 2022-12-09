@@ -10,7 +10,7 @@ The numbers next to the planet are the distance to the Sun in AU (astronomical u
 
 
 For the next update: - HUD where we could: -change the time speed
-                                           -create our own planets with the mass, size, position (cursor position).
+                                           \n-create our own planets with the mass, size, position (cursor position).
                                            -select a planet and get infos of the planet.
                                            -select a planet and zoom in.
       
