@@ -18,6 +18,8 @@ public:
 
 	void click();
 	void unclick();
+
+	const sf::Vector2f getSizeButton() const;
 };
 
 class SlideButton : public Button

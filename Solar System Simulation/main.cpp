@@ -116,7 +116,7 @@ void zoomAndDezoom(std::vector<Planets>& _planets, float _delta)
     }
 }
 
-void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool& _clicked)
+void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool& _clicked, std::vector<Planets>& _planets)
 {
     // store the position of the mouse and the slide bar ////////////////////////////////////////////////////////////////////
     sf::Vector2f mousePos = _win.mapPixelToCoords(sf::Mouse::getPosition(_win));
@@ -127,10 +127,15 @@ void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool&
         _button.click();
         _clicked = true;
     }
-    // can move the button even if we're not at their x coordinates ////////////////////////////////////////////////////////////////////
-    else if (mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && _clicked)
+    // can move the button even if the cursor is not at their x and y coordinates ////////////////////////////////////////////////////////////////////
+    else if (_clicked)
     {
         _button.slide(mousePos.y);
+        float delta = std::abs(_button.getRelativePosition().y - _button.getSize().y + _button.getSizeButton().y);
+        for (Planets& planet : _planets)
+        {
+            planet.m_timestep = 3600 * delta;
+        }
     }
 }
 
@@ -209,7 +214,7 @@ int main()
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
                 // check if the user click on the slide button ////////////////////////////////////////////////////////////////////
-                checkSlideButtonPressed(window, slidebutton, clicked);
+                checkSlideButtonPressed(window, slidebutton, clicked, *planets);
             }
             
             if (event.type == sf::Event::MouseButtonReleased)

@@ -25,6 +25,11 @@ void Button::unclick()
 	m_rectangle.setFillColor(sf::Color(m_color.r, m_color.g, m_color.b));
 }
 
+const sf::Vector2f Button::getSizeButton() const
+{
+	return m_size;
+}
+
 
 
 SlideButton::SlideButton(sf::Color color, sf::Vector2f position, sf::Vector2f size, sf::Vector2f sizeSlideButton)
