@@ -37,4 +37,7 @@ public:
 	const sf::Vector2f getSize() const;
 	const sf::Vector2f getRelativePosition() const;
 
+	void setPosition(sf::Vector2f _position, sf::Vector2f _positionRelative);
+	
+
 };

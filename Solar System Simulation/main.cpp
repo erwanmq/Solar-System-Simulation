@@ -18,69 +18,72 @@ public:
 struct Earth : public Planets
 {
 public:
-    Earth(float distanceFromSun = 1.f, double velocity_y = -29.783e3, double velocity_x = 0, double mass = 5.9742e24)
-        : Planets{ sf::Color::Blue, 6378.137e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+    Earth()
+        : Planets{ sf::Color::Blue, 6378.137e3, 5.9742e24, 1.f * AU, 0, 0, -29.783e3 }
     {}
 };
 
 struct Mars : public Planets
 {
 public:
-    Mars(float distanceFromSun = 1.524f, double velocity_y = -24.077e3, double velocity_x = 0, double mass = 6.39e23)
-        : Planets{ sf::Color::Red, 3396.2e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+    Mars()
+        : Planets{ sf::Color::Red, 3396.2e3, 6.39e23, 1.524f * AU, 0, 0, -24.077e3 }
     {}
 };
 
 struct Mercury : public Planets
 {
 public:
-    Mercury(float distanceFromSun = 0.387f, double velocity_y = -47.4e3, double velocity_x = 0, double mass = 3.30e23)
-        : Planets{ sf::Color(128, 64, 0), 4880e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+    Mercury()
+        : Planets{ sf::Color(128, 64, 0), 2439.7e3, 3.30e23, 0.387f * AU, 0, 0, -47.4e3 }
     {}
 };
 
 struct Venus : public Planets
 {
 public:
-    Venus(float distanceFromSun = 0.723f, double velocity_y = -35.02e3, double velocity_x = 0, double mass = 4.8685e24)
-        : Planets{ sf::Color(189, 180, 66), 6051.8e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+    Venus()
+        : Planets{ sf::Color(189, 180, 66), 6051.8e3, 4.8685e24, 0.723f * AU, 0, 0, -35.02e3 }
     {}
 };
 
 struct Jupiter : public Planets
 {
 public:
-    Jupiter(float distanceFromSun = 5.4570f, double velocity_y = -13.07e3, double velocity_x = 0, double mass = 1.8982e27)
-        : Planets{ sf::Color(187, 142, 102), 71492e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+    Jupiter()
+        : Planets{ sf::Color(187, 142, 102), 71492e3, 1.8982e27, 5.4570f * AU, 0, 0, -13.07e3 }
     {}
 };
 
 struct Saturn : public Planets
 {
 public:
-    Saturn(float distanceFromSun = 9.536f, double velocity_y = -9.640e3, double velocity_x = 0, double mass = 5.684e26)
-        : Planets{ sf::Color(255, 255, 128), 58232e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+    Saturn()
+        : Planets{ sf::Color(255, 255, 128), 58232e3, 5.684e26, 9.536f * AU, 0, 0, -9.640e3 }
     {}
 };
 
 struct Uranus : public Planets
 {
-    Uranus(float distanceFromSun = 19.191f, double velocity_y = -6.80e3, double velocity_x = 0, double mass = 8.6810e25)
-        : Planets{ sf::Color(191, 255, 255), 25559e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+public:
+    Uranus()
+        : Planets{ sf::Color(191, 255, 255), 25559e3, 8.6810e25, 19.191f * AU, 0, 0, -6.80e3 }
     {}
 };
 
 struct Neptune : public Planets
-{
-    Neptune(float distanceFromSun = 30.07f, double velocity_y = -5.43e3, double velocity_x = 0, double mass = 1.024e26)
-        : Planets{ sf::Color(128, 128, 255), 24764e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+{ 
+public:
+    Neptune()
+        : Planets{ sf::Color(128, 128, 255), 24764e3, 1.024e26, 30.07f * AU, 0, 0, -5.43e3 }
     {}
 };
 
 struct Pluto : public Planets
 {
-    Pluto(float distanceFromSun = 49.305f, double velocity_y = -4.743e3, double velocity_x = 0, double mass = 1.303e22)
-        : Planets{ sf::Color(128, 128, 128), 1188.3e3, mass, distanceFromSun * AU, 0, velocity_x, velocity_y }
+public:
+    Pluto()
+        : Planets{ sf::Color(128, 128, 128), 1188.3e3, 1.303e22, 49.305f * AU, 0, 0, -4.743e3 }
     {}
 };
 
@@ -128,7 +131,6 @@ void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool&
     else if (mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && _clicked)
     {
         _button.slide(mousePos.y);
-        std::cout << _button.getRelativePosition().x << " - " << _button.getRelativePosition().y << '\n';
     }
 }
 
@@ -181,9 +183,10 @@ int main()
     planets->push_back(*uranus);
     planets->push_back(*neptune);
     planets->push_back(*pluto);
+    
 
     // Buttons ////////////////////////////////////////////////////////////////////
-    SlideButton slidebutton(sf::Color(125, 125, 125), sf::Vector2f(100, 100), sf::Vector2f(30, 30), sf::Vector2f(30, 150));
+    SlideButton slidebutton(sf::Color(125, 125, 125), sf::Vector2f(100, 100), sf::Vector2f(30, 30),  sf::Vector2f(30, 150));
 
     bool clicked = false;
     // main game loop ////////////////////////////////////////////////////////////////////
@@ -247,6 +250,7 @@ int main()
         // add the time and draw it ////////////////////////////////////////////////////////////////////
         time_elapsed += planets->at(0).m_timestep;
         time_elapsed_text.setText(sf::String(std::to_string(time_elapsed / 86400) + " days"));
+        time_elapsed_text.setPosition(window.getView().getCenter() + sf::Vector2f(winWidth / 2.f - 150, -winHeight / 2.f + 10));
         time_elapsed_text.drawText(window);
 
         // set the view at the center of the planet we're looking for ////////////////////////////////////////////////////////////////////
@@ -254,6 +258,8 @@ int main()
         window.setView(view);
 
         // draw buttons ////////////////////////////////////////////////////////////////////
+        sf::Vector2f positionToTheWindow = window.getView().getCenter() + sf::Vector2f(-winWidth / 2.f + 100, -winHeight / 2.f + 100);
+        slidebutton.setPosition(positionToTheWindow, slidebutton.getRelativePosition());
         slidebutton.drawSlideButton(window);
         
 

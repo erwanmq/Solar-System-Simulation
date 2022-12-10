@@ -21,5 +21,7 @@ public:
 
 	void drawText(sf::RenderWindow& win);
 
+	void setPosition(sf::Vector2f _position);
+
 
 };

@@ -38,3 +38,8 @@ void Text::drawText(sf::RenderWindow& win)
 	m_text.setPosition(m_position);
 	win.draw(m_text);
 }
+
+void Text::setPosition(sf::Vector2f _position)
+{
+	m_position = _position;
+}
