@@ -134,7 +134,7 @@ void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool&
         float delta = std::abs(_button.getRelativePosition().y - _button.getSize().y + _button.getSizeButton().y);
         for (Planets& planet : _planets)
         {
-            planet.m_timestep = 3600 * delta;
+            planet.m_timestep = 3600 * delta * 0.8;
         }
     }
 }
