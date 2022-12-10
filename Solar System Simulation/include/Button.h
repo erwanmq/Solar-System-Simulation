@@ -18,8 +18,6 @@ public:
 
 	void click();
 	void unclick();
-	const sf::Vector2f getPosition() const;
-	const sf::Vector2f getSize() const;
 };
 
 class SlideButton : public Button
@@ -37,5 +35,6 @@ public:
 
 	const sf::Vector2f getPosition() const;
 	const sf::Vector2f getSize() const;
+	const sf::Vector2f getRelativePosition() const;
 
 };

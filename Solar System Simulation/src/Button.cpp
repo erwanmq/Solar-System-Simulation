@@ -25,11 +25,6 @@ void Button::unclick()
 	m_rectangle.setFillColor(sf::Color(m_color.r, m_color.g, m_color.b));
 }
 
-const sf::Vector2f Button::getSize() const
-{
-	return m_size;
-}
-
 
 SlideButton::SlideButton(sf::Color color, sf::Vector2f position, sf::Vector2f size, sf::Vector2f sizeSlideButton)
 	: Button(color, position, size), m_sizeSlideButton{ sizeSlideButton }
@@ -38,8 +33,6 @@ SlideButton::SlideButton(sf::Color color, sf::Vector2f position, sf::Vector2f si
 	m_positionSlideButton = sf::Vector2f(position.x, position.y - sizeSlideButton.y / 2 + m_size.y / 2);
 	m_slideButton.setPosition(m_positionSlideButton);
 	m_slideButton.setSize(sizeSlideButton);
-
-	
 }
 
 void SlideButton::slide(float _mousePos)
@@ -67,4 +60,10 @@ const sf::Vector2f SlideButton::getPosition() const
 const sf::Vector2f SlideButton::getSize() const
 {
 	return m_sizeSlideButton;
+}
+
+const sf::Vector2f SlideButton::getRelativePosition() const
+{
+	sf::Vector2f return_pos = sf::Vector2f(0, m_position.y - m_sizeSlideButton.y / 2 + m_size.y / 2);
+	return return_pos;
 }

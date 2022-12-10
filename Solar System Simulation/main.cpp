@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include <Windows.h>
-#include <limits>
 
 
 // structs that represent each known planet with their characteristics
@@ -85,10 +84,58 @@ struct Pluto : public Planets
     {}
 };
 
+void setBackground(sf::RectangleShape& _rect, sf::Texture& _texture)
+{
+    _texture.loadFromFile("Asserts/Images/space.jpg");
+    
+    _rect.setTexture(&_texture);
+    _rect.setOrigin(sf::Vector2f(winWidth / 2.f, winHeight / 2.f));
+    _rect.setPosition(sf::Vector2f(winWidth / 2.f, winHeight / 2.f));
+    _rect.setSize(sf::Vector2f(winWidth, winHeight));
+}
+
+void zoomAndDezoom(std::vector<Planets>& _planets, float _delta)
+{
+    // change the scale of all planets
+    if (_delta > 0.1f)
+    {
+        for (auto& planet : _planets)
+        {
+            planet.m_scale *= 1.1;
+        }
+    }
+    else if (_delta < -0.1f)
+    {
+        for (auto& planet : _planets)
+        {
+            planet.m_scale *= 0.9;
+        }
+    }
+}
+
+void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool& _clicked)
+{
+    // store the position of the mouse and the slide bar ////////////////////////////////////////////////////////////////////
+    sf::Vector2f mousePos = _win.mapPixelToCoords(sf::Mouse::getPosition(_win));
+    sf::Vector2f upperLeftSlideButton = _button.getPosition();
+    sf::Vector2f lowerRightSlideButton = _button.getPosition() + _button.getSize();
+    if (mousePos.x > upperLeftSlideButton.x && mousePos.x < lowerRightSlideButton.x && mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && !_clicked)
+    {
+        _button.click();
+        _clicked = true;
+    }
+    // can move the button even if we're not at their x coordinates ////////////////////////////////////////////////////////////////////
+    else if (mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && _clicked)
+    {
+        _button.slide(mousePos.y);
+        std::cout << _button.getRelativePosition().x << " - " << _button.getRelativePosition().y << '\n';
+    }
+}
+
 int main()
 { 
     // window ////////////////////////////////////////////////////////////////////
-    const __int8 fps = 60;
+    constexpr __int8 fps = 60;
     sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), "Solar System");
     window.setFramerateLimit(fps); // 60 fps
 
@@ -98,13 +145,9 @@ int main()
     short index_planet_view = 0;
 
     // background ////////////////////////////////////////////////////////////////////
-    sf::Texture texture_background;
-    texture_background.loadFromFile("Asserts/Images/space.jpg");
     sf::RectangleShape background;
-    background.setTexture(&texture_background);
-    background.setOrigin(sf::Vector2f(winWidth / 2.f, winHeight / 2.f));
-    background.setPosition(sf::Vector2f(winWidth / 2.f, winHeight / 2.f));
-    background.setSize(sf::Vector2f(winWidth, winHeight));
+    sf::Texture texture_background;
+    setBackground(background, texture_background);
 
 
     // time elapsed ////////////////////////////////////////////////////////////////////
@@ -127,6 +170,7 @@ int main()
 
     // vector of planets ////////////////////////////////////////////////////////////////////
     std::vector<Planets>* planets = new std::vector<Planets>;
+    
     planets->push_back(*sun);
     planets->push_back(*mercury);
     planets->push_back(*venus);
@@ -156,53 +200,19 @@ int main()
             if (event.type == sf::Event::MouseWheelScrolled)
             {
                 float delta = event.mouseWheelScroll.delta;
-
-                if (delta > 0.1f)
-                {
-                    for (auto& planet : *planets)
-                    {
-                        planet.m_scale *= 1.1;
-                    }
-                }
-                else if (delta < -0.1f)
-                {
-                    for (auto& planet : *planets)
-                    {
-                        planet.m_scale *= 0.9;
-                    }
-                }
+                zoomAndDezoom(*planets, delta);
             }
             
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                sf::Vector2f upperLeftSlideButton = slidebutton.getPosition();
-                sf::Vector2f lowerRightSlideButton = slidebutton.getPosition() + slidebutton.getSize();
-                if (mousePos.x > upperLeftSlideButton.x && mousePos.x < lowerRightSlideButton.x && mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && !clicked)
-                {
-                    slidebutton.click();
-                    clicked = true;
-                }
-                else if (mousePos.y < lowerRightSlideButton.y && mousePos.y > upperLeftSlideButton.y && clicked)
-                {
-                    slidebutton.slide(mousePos.y);
-                }
-
+                // check if the user click on the slide button ////////////////////////////////////////////////////////////////////
+                checkSlideButtonPressed(window, slidebutton, clicked);
             }
             
             if (event.type == sf::Event::MouseButtonReleased)
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    slidebutton.unclick();
-                    clicked = false;
-                }
-            }
-
-            // focus the view on the planet with mouse button ////////////////////////////////////////////////////////////////////
-            if (event.type == sf::Event::MouseButtonReleased)
-            {
                 sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                // focus the view on the planet with mouse button ////////////////////////////////////////////////////////////////////
                 for (short i = 0; i < planets->size(); i++)
                 {
                     if (mousePos.x > planets->at(i).getPosition().x - 30 && mousePos.x < planets->at(i).getPosition().x + 30 && mousePos.y > planets->at(i).getPosition().y - 30 && mousePos.y < planets->at(i).getPosition().y + 30)
@@ -210,19 +220,23 @@ int main()
                         index_planet_view = i;
                     }
                 }
+                // release the button ////////////////////////////////////////////////////////////////////
+                if (event.mouseButton.button == sf::Mouse::Left && clicked)
+                {
+                    slidebutton.unclick();
+                    clicked = false;
+                }
             }
         }
         
-        time_elapsed += planets->at(0).m_timestep;
-        time_elapsed_text.setText(sf::String(std::to_string(time_elapsed / 86400) + " jours"));
-
-
         window.clear();
+
+        // draw the background ////////////////////////////////////////////////////////////////////
         background.setPosition(planets->at(index_planet_view).getPosition());
         window.draw(background);
-        time_elapsed_text.drawText(window);
-
         
+
+        // move and draw the planets ////////////////////////////////////////////////////////////////////
         for (Planets& planet : *planets)
         {
             planet.update_position(*planets); // calculate their movements
@@ -230,18 +244,25 @@ int main()
             
         }
 
+        // add the time and draw it ////////////////////////////////////////////////////////////////////
+        time_elapsed += planets->at(0).m_timestep;
+        time_elapsed_text.setText(sf::String(std::to_string(time_elapsed / 86400) + " days"));
+        time_elapsed_text.drawText(window);
 
+        // set the view at the center of the planet we're looking for ////////////////////////////////////////////////////////////////////
         view.setCenter(planets->at(index_planet_view).getPosition());
         window.setView(view);
 
+        // draw buttons ////////////////////////////////////////////////////////////////////
         slidebutton.drawSlideButton(window);
         
 
+        // display window ////////////////////////////////////////////////////////////////////
         window.display();
 
     }
 
-
+    // delete all planets ////////////////////////////////////////////////////////////////////
     delete planets;
     delete sun;
     delete earth;
