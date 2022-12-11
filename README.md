@@ -18,7 +18,7 @@ Each frame, the program calcul the forces applied to each planet and with the Ne
 ## What are the next updates?
 My project is to have a HUD where we could choose a mass, a size, a color or anything else, place it on the solar system and see what do our planet. Destroy our orbits? See the Earth leave? The sun go at 100km/s?
 So for the next updates I will had some buttons to create our own planet and see how works our solar system.
-I want to add some design like real planet image (because for the moment it's just circles :unamused:
+I want to add some design like real planet image (because for the moment it's just circles :unamused:)
 
 # What are the problems?
 There is still some bugs that I need to work on.
