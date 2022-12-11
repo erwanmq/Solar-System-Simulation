@@ -11,6 +11,7 @@ The numbers next to the planet are the distance to the Sun in AU (astronomical u
 ## How works my simulation?
 The simulation use **the real values** in the space (real size and real distance). To draw them on a window I had to scale them. I used a basic formula to draw the earth at 250 pixels to the sun. 
 The size can be modify by using the scroll wheel, we can see how huuuge is the solar system.
+![image](https://user-images.githubusercontent.com/93351393/206922344-dadb1edf-6742-4506-be3c-53e2f4c12549.png)
 ![image](https://user-images.githubusercontent.com/93351393/206921919-effa8a5b-9464-438c-9837-73de0cf89611.png)
 Each frame, the program calcul the forces applied to each planet and with the Newton laws we can set the speed of each planets. But if we increase the timestep at a big value, the program can't calculate each forces and causes problems to the simulation.
 
