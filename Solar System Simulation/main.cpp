@@ -134,7 +134,7 @@ void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool&
         float delta = std::abs(_button.getRelativePosition().y - _button.getSize().y + _button.getSizeButton().y);
         for (Planets& planet : _planets)
         {
-            planet.m_timestep = 3600 * delta * 0.8;
+            planet.m_timestep = 3600 * delta * 0.5;
         }
     }
 }
@@ -142,9 +142,9 @@ void checkSlideButtonPressed(sf::RenderWindow& _win, SlideButton& _button, bool&
 int main()
 { 
     // window ////////////////////////////////////////////////////////////////////
-    constexpr __int8 fps = 60;
+    constexpr __int8 fps = 30;
     sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), "Solar System");
-    window.setFramerateLimit(fps); // 60 fps
+    window.setFramerateLimit(fps);
 
     // view ////////////////////////////////////////////////////////////////////
     sf::View view;
