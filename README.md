@@ -20,7 +20,7 @@ My project is to have a HUD where we could choose a mass, a size, a color or any
 So for the next updates I will had some buttons to create our own planet and see how works our solar system.
 I want to add some design like real planet image (because for the moment it's just circles :unamused:
 
-# WHat are the problems?
+# What are the problems?
 There is still some bugs that I need to work on.
 For this moment there is a major bug, when we zoom in, the planet is further than the view. But if we stop the time it works.
 The drawings of the orbits far from the sun are ugly but I will work on it soon.
