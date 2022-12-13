@@ -11,7 +11,7 @@
 struct Sun : public Planets
 {
 public:
-    Sun() : Planets{ sf::Color::Yellow, 696700e3, 1.98892e30, 0, 0, 0, 0, true }
+    Sun() : Planets{ sf::Color::Yellow, 696700e3, 1.98892e30, 0, 0, 0, 0, "Asserts/Images/sun.png",true}
     {}
 };
 
@@ -19,7 +19,7 @@ struct Earth : public Planets
 {
 public:
     Earth()
-        : Planets{ sf::Color::Blue, 6378.137e3, 5.9742e24, 1.f * AU, 0, 0, -29.783e3 }
+        : Planets{ sf::Color::Blue, 6378.137e3, 5.9742e24, 1.f * AU, 0, 0, -29.783e3, "Asserts/Images/earth.png" }
     {}
 };
 
@@ -27,7 +27,7 @@ struct Mars : public Planets
 {
 public:
     Mars()
-        : Planets{ sf::Color::Red, 3396.2e3, 6.39e23, 1.524f * AU, 0, 0, -24.077e3 }
+        : Planets{ sf::Color::Red, 3396.2e3, 6.39e23, 1.524f * AU, 0, 0, -24.077e3, "Asserts/Images/mars.png" }
     {}
 };
 
@@ -35,7 +35,7 @@ struct Mercury : public Planets
 {
 public:
     Mercury()
-        : Planets{ sf::Color(128, 64, 0), 2439.7e3, 3.30e23, 0.387f * AU, 0, 0, -47.4e3 }
+        : Planets{ sf::Color(128, 64, 0), 2439.7e3, 3.30e23, 0.387f * AU, 0, 0, -47.4e3, "Asserts/Images/mercury.png" }
     {}
 };
 
@@ -43,7 +43,7 @@ struct Venus : public Planets
 {
 public:
     Venus()
-        : Planets{ sf::Color(189, 180, 66), 6051.8e3, 4.8685e24, 0.723f * AU, 0, 0, -35.02e3 }
+        : Planets{ sf::Color(189, 180, 66), 6051.8e3, 4.8685e24, 0.723f * AU, 0, 0, -35.02e3, "Asserts/Images/venus.png" }
     {}
 };
 
@@ -51,7 +51,7 @@ struct Jupiter : public Planets
 {
 public:
     Jupiter()
-        : Planets{ sf::Color(187, 142, 102), 71492e3, 1.8982e27, 5.4570f * AU, 0, 0, -13.07e3 }
+        : Planets{ sf::Color(187, 142, 102), 71492e3, 1.8982e27, 5.4570f * AU, 0, 0, -13.07e3, "Asserts/Images/jupiter.png" }
     {}
 };
 
@@ -59,7 +59,7 @@ struct Saturn : public Planets
 {
 public:
     Saturn()
-        : Planets{ sf::Color(255, 255, 128), 58232e3, 5.684e26, 9.536f * AU, 0, 0, -9.640e3 }
+        : Planets{ sf::Color(255, 255, 128), 58232e3, 5.684e26, 9.536f * AU, 0, 0, -9.640e3, "Asserts/Images/saturn.png" }
     {}
 };
 
@@ -67,7 +67,7 @@ struct Uranus : public Planets
 {
 public:
     Uranus()
-        : Planets{ sf::Color(191, 255, 255), 25559e3, 8.6810e25, 19.191f * AU, 0, 0, -6.80e3 }
+        : Planets{ sf::Color(191, 255, 255), 25559e3, 8.6810e25, 19.191f * AU, 0, 0, -6.80e3,  "Asserts/Images/uranus.png" }
     {}
 };
 
@@ -75,7 +75,7 @@ struct Neptune : public Planets
 { 
 public:
     Neptune()
-        : Planets{ sf::Color(128, 128, 255), 24764e3, 1.024e26, 30.07f * AU, 0, 0, -5.43e3 }
+        : Planets{ sf::Color(128, 128, 255), 24764e3, 1.024e26, 30.07f * AU, 0, 0, -5.43e3, "Asserts/Images/neptune.png" }
     {}
 };
 
@@ -83,7 +83,7 @@ struct Pluto : public Planets
 {
 public:
     Pluto()
-        : Planets{ sf::Color(128, 128, 128), 1188.3e3, 1.303e22, 49.305f * AU, 0, 0, -4.743e3 }
+        : Planets{ sf::Color(128, 128, 128), 1188.3e3, 1.303e22, 49.305f * AU, 0, 0, -4.743e3, "Asserts/Images/pluto.png" }
     {}
 };
 

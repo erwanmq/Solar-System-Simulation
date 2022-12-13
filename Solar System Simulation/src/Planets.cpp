@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Planets::Planets(sf::Color color, double size, double mass, double pos_x, double pos_y, double x_vel, double y_vel, bool sun)
+Planets::Planets(sf::Color color, double size, double mass, double pos_x, double pos_y, double x_vel, double y_vel,const char* _filepath, bool sun)
     : m_color{ color }, m_size{ size }, m_mass{ mass }, m_pos_x{ pos_x }, m_pos_y{ pos_y }, m_x_vel{ x_vel }, m_y_vel{ y_vel }, m_sun{ sun }
 {
     default_value = m_size * m_scale;
@@ -12,6 +12,8 @@ Planets::Planets(sf::Color color, double size, double mass, double pos_x, double
     m_bright.setTexture(&m_texture);
     m_bright.setFillColor(m_color);
 
+    
+    m_texture_planet.loadFromFile(_filepath);
 
 }
 
@@ -22,7 +24,7 @@ Planets::~Planets()
 void Planets::setText(sf::RenderWindow& win, float x, float y)
 {
     std::string str_text = std::to_string(m_distanceToSun / AU);
-    Text text{ sf::String(std::to_string(m_distanceToSun / AU)), sf::Vector2f(x + 10, y), 13 };
+    Text text{ sf::String(std::to_string(m_distanceToSun / AU)), sf::Vector2f(x + m_planet.getRadius(), y), 13};
     text.drawText(win);
 }
 
@@ -61,18 +63,18 @@ void Planets::drawPlanet(sf::RenderWindow& win)
     m_planet.setRadius(size_planet);
     m_planet.setOrigin(sf::Vector2f(size_planet, size_planet));
 
-    m_planet.setFillColor(m_color);
-
-
-    // drawing the text for the distance to the sun
-    if (!m_sun)
-        setText(win, m_xWorldCoord, m_yWorldCoord);
-
     // drawing the light around the planets
     drawLight(win);
 
     m_planet.setPosition(sf::Vector2f(m_xWorldCoord, m_yWorldCoord));
 
+    if (m_planet.getRadius() > 5.f)
+    {
+        m_planet.setFillColor(sf::Color::White);
+        m_planet.setTexture(&m_texture_planet);
+    }
+    else
+        m_planet.setFillColor(m_color);
     
     win.draw(m_planet);
     for (int i = 0; i < m_orbit.size() - 1; i++)
@@ -82,6 +84,10 @@ void Planets::drawPlanet(sf::RenderWindow& win)
         m_rectOrbit.setSize(sf::Vector2f(2, 2));
         win.draw(m_rectOrbit);
     }
+
+    // drawing the text for the distance to the sun
+    if (!m_sun)
+        setText(win, m_xWorldCoord, m_yWorldCoord);
 
 }
 
@@ -147,6 +153,7 @@ void Planets::update_position(std::vector<Planets>& planets)
     }
 
 }
+
 
 
 const sf::Vector2f Planets::getPosition() const

@@ -16,6 +16,8 @@ private:
     sf::Texture m_texture;
     sf::CircleShape m_bright;
 
+    sf::Texture m_texture_planet;
+
 
     double m_size;
 
@@ -39,8 +41,6 @@ private:
     std::vector<sf::Vector2f> m_orbit{}; // vector that stores the trajectory to represent the orbit
     sf::Text m_text; // text for display the distance to sun
 
-
-
 public:
     double m_scale = 250 / AU; // 250 pixels for one AU
     int m_timestep = 3600 * 24; // one day per frame
@@ -48,7 +48,7 @@ public:
 public:
 
 
-    Planets(sf::Color color, double size, double mass, double pos_x, double pos_y, double x_vel, double y_vel, bool sun = false);
+    Planets(sf::Color color, double size, double mass, double pos_x, double pos_y, double x_vel, double y_vel,const char* _filepath, bool sun = false);
 
     ~Planets();
 
@@ -61,7 +61,6 @@ public:
     std::tuple<double, double> attraction(Planets& other);
 
     void update_position(std::vector<Planets>& planets);
-
 
     const sf::Vector2f getPosition() const;
     void setPosition(int x, int y);
