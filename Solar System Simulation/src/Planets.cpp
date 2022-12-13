@@ -74,9 +74,10 @@ void Planets::drawPlanet(sf::RenderWindow& win)
         m_planet.setTexture(&m_texture_planet);
     }
     else
-        m_planet.setFillColor(m_color);
+        m_planet.setTexture(&m_texture_planet);
+        
     
-    win.draw(m_planet);
+    
     for (int i = 0; i < m_orbit.size() - 1; i++)
     {
         m_rectOrbit.setPosition(static_cast<float>(m_orbit[i].x * m_scale + winWidth / 2), static_cast<float>(m_orbit[i].y * m_scale + winHeight / 2));
@@ -84,6 +85,7 @@ void Planets::drawPlanet(sf::RenderWindow& win)
         m_rectOrbit.setSize(sf::Vector2f(2, 2));
         win.draw(m_rectOrbit);
     }
+    win.draw(m_planet);
 
     // drawing the text for the distance to the sun
     if (!m_sun)
