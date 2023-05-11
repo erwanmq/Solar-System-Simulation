@@ -16,8 +16,8 @@ The size can be modify by using the scroll wheel, we can see how huuuge is the s
 Each frame, the program calcul the forces applied to each planet and with the Newton laws we can set the speed of each planets. But if we increase the timestep at a big value, the program can't calculate each forces and causes problems to the simulation.
 
 ## What are the next updates?
-My project is to have a HUD where we could choose a mass, a size, a color or anything else, place it on the solar system and see what do our planet. Destroy our orbits? See the Earth leave? The sun go at 100km/s?
-So for the next updates I will had some buttons to create our own planet and see how works our solar system.
+My project is to have a HUD where we could choose a mass, a size, a color or anything else, place it on the solar system and see what do our planet. Destroy our orbits? See the Earth leaves? The sun goes at 100km/s?
+So for the next updates I will add some buttons to create our own planet and see how works our solar system.
 I want to add some design like real planet image (because for the moment it's just circles :unamused:)
 
 ## What are the problems?
